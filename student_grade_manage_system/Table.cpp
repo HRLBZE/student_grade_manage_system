@@ -173,9 +173,6 @@ std::vector<std::string> Table::split(std::string str, char separator)
 	for (size_t pos = 0; pos != std::string::npos;)
 	{
 		pos = str.find(separator);
-
-
-
 		res.push_back(str.substr(0, pos));
 		str = std::string(str.c_str() + pos + 1);
 	}

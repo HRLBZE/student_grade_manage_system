@@ -10,7 +10,7 @@ using namespace std;
 Student::Student()
 {
 	readFile("./res/student.txt");
-	::loadimage(&pic_s, "./picture/4.png", Window::width(), Window::height());
+	::loadimage(&pic_s, "./picture/7.png", Window::width(), Window::height());
 	::settextstyle(20, 0, "宋体");
 
 	menu.emplace_back(new Button("show all students"));
@@ -60,7 +60,7 @@ Student::Student()
 
 	m_dlTable.reset(new Table);
 	m_dlTable->setHeard(m_header);
-	m_dlTable->mov(m_dlEdit->x(), m_dlEdit->y() + 120);
+	m_dlTable->mov(m_dlEdit->x() - 60, m_dlEdit->y() + 200);
 	m_dlTable->setRow(1);
 
 	m_fdEdit.reset(new LineEdit(200, 260, 550, 50));
@@ -68,7 +68,7 @@ Student::Student()
 
 	m_fdTable.reset(new Table);
 	m_fdTable->setHeard(m_header);
-	m_fdTable->mov(m_fdEdit->x(), m_fdEdit->y() + 120);
+	m_fdTable->mov(m_fdEdit->x() - 60, m_fdEdit->y() + 120);
 	m_fdTable->setRow(1);
 
 	m_modifyEdit.reset(new LineEdit(150, 260, 500, 40));
@@ -190,7 +190,6 @@ void Student::display()
 
 void Student::search()
 {
-
 	const char* title = "请输入学生学号";
 	settextstyle(20, 0, "宋体");
 	outtextxy((Window::width() - textwidth(title)) / 2, 150, title);
@@ -198,6 +197,7 @@ void Student::search()
 	if (m_fdTable->rowCount() != 0)
 		m_fdTable->show();
 	auto& str = m_fdEdit->text();
+
 	if (!str.empty())
 	{
 		auto it = std::find_if(vec_stu.begin(), vec_stu.end(), [=](const Student_data& stu)
@@ -216,7 +216,6 @@ void Student::search()
 		}
 		m_fdEdit->clear();
 	}
-
 }
 
 void Student::drawBack_s()
@@ -286,9 +285,48 @@ void Student::updateShowtable()
 	}
 }
 
+void Student::search1()
+{
+	const char* title = "请输入学生学号";
+	settextstyle(20, 0, "宋体");
+	outtextxy((Window::width() - textwidth(title)) / 2, 150, title);
+	m_fdEdit->show();
+	if (m_fdTable->rowCount() != 0)
+		m_fdTable->show();
+	auto& str = m_fdEdit->text();
+	if (!str.empty())
+	{
+		// 二分法查找
+		int left = 0;
+		int right = vec_stu.size() - 1;
+		int mid;
+		while (left <= right)
+		{
+			mid = left + (right - left) / 2;
+			if (vec_stu[mid].number == std::stoi(str))
+			{
+				// 找到学生
+				m_fdTable->insertD(vec_stu[mid].formatIn());
+				return;
+			}
+			else if (vec_stu[mid].number < std::stoi(str))
+			{
+				left = mid + 1;
+			}
+			else
+			{
+				right = mid - 1;
+			}
+		}
+		// 未找到学生
+		outtextxy(m_fdEdit->x(), m_fdEdit->y() + 50, std::string("对不起，没找到学号为" + str + "的学生").data());
+		m_fdEdit->clear();
+	}
+}
+
 Teacher::Teacher()
 {
-	::loadimage(&pic_t, "./picture/3.png", Window::width(), Window::height());
+	::loadimage(&pic_t, "./picture/6.png", Window::width(), Window::height());
 	for (int i = 0; i < menu.size(); i++)
 	{
 		menu[i]->setFixSize(250, 50);
@@ -427,13 +465,11 @@ void Teacher::erase()
 			});
 		if (it == vec_stu.end())
 		{
-			outtextxy(m_dlEdit->x(), m_dlEdit->y() + 50, std::string("对不起，没找到学号为" + str + "的学生").data());
+			outtextxy(m_dlEdit->x(), m_dlEdit->y() + 120, std::string("对不起，没找到学号为" + str + "的学生").data());
 		}
 		else
 		{
 			m_dlTable->insertD(it->formatIn());
-
-
 		}
 	}
 
@@ -450,7 +486,6 @@ void Teacher::erase()
 		}
 
 		vec_stu.erase(it, vec_stu.end());
-
 		updateShowtable();
 
 	}
@@ -579,3 +614,4 @@ void Teacher::event()
 		e->event();
 	}
 }
+

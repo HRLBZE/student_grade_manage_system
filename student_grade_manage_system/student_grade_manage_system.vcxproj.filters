@@ -51,6 +51,9 @@
     <ClCompile Include="Button.cpp">
       <Filter>源文件\basc</Filter>
     </ClCompile>
+    <ClCompile Include="AVLTree.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Admin.h">
@@ -76,6 +79,9 @@
     </ClInclude>
     <ClInclude Include="LineEdit.h">
       <Filter>头文件\basc</Filter>
+    </ClInclude>
+    <ClInclude Include="AVLTree.h">
+      <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

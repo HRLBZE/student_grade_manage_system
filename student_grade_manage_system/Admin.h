@@ -9,8 +9,10 @@
 #include<memory>
 #include"LineEdit.h"
 #include<algorithm>
+#include "AVLTree.h"
 
-class Student
+
+class Student :public AVLTree
 {
 	IMAGE pic_s;
 	enum number
@@ -37,10 +39,10 @@ public:
 	std::unique_ptr<LineEdit>m_fdEdit;
 	std::unique_ptr<Table> m_fdTable;
 	std::unique_ptr<LineEdit>m_modifyEdit;
-
 	Student();
 	void run_student();
 	int menu_st();
+	void search1();
 	void display();
 	void search();
 	void drawBack_s();
@@ -79,4 +81,13 @@ public:
 	void event();
 
 
+};
+
+
+struct AVLNode {
+	Student_data data;
+	AVLNode* left;
+	AVLNode* right;
+	int height;
+	AVLNode(const Student_data& student) : data(student), left(nullptr), right(nullptr), height(1) {}
 };

@@ -37,7 +37,6 @@ void Basc::mov(int x, int y)
 	this->m_y = y;
 }
 
-
 bool Basc::isin()
 {
 	auto& m_msg = Window::getMsg();
